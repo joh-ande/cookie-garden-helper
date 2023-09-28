@@ -34,6 +34,12 @@ class UI {
   width: 50%;
 }
 
+#cookieGardenMutatePane{
+  content: "";
+  display: table;
+  clear: both;
+}
+
 #autoHarvestPanel { color: wheat; }
 #autoHarvestPanel a { color: wheat; }
 
@@ -296,6 +302,9 @@ class UI {
         'Plant the selected seed on all empty tiles')}
       </p>
     </div>
+  </div>
+  <div id="cookieGardenMutatePane">
+    <h2>Mutate tools</h2>
   </div>
 </div>`);
 
