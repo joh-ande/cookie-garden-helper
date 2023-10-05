@@ -29,6 +29,11 @@ class Main {
       () => Garden.run(this.config),
       this.timerInterval
     );
+
+    this.timerId2 = window.setInterval(
+      () => Grimoire.run(this.config),
+      this.timerInterval
+    );
   }
 
   static stop() { window.clearInterval(this.timerId); }
