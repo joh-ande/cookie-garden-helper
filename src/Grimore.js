@@ -2,14 +2,15 @@ class Grimoire{
     static get minigame() { return Game.Objects['Wizard tower'].minigame; }
     static get isActive() { return this.minigame !== undefined; }
 
-    static run(config) {        
-        if(config.autoForceHand && this.minigame.magic >= this.minigame.magicM){
-            console.log("Clicking Force Hand!");
-            var element = document.getElementById('grimoireSpell1');
-            if(element !== undefined) {
-                Main.doEvent(element, "click");
-             }
-        }
+    static run(config) {  
+        if(this.isActive){
+            if(this.minigame.magic >= this.minigame.magicM){
+                var element = document.getElementById('grimoireSpell1');
+                if(element !== undefined) {
+                    Main.doEvent(element, "click");
+                }
+            }
+        }      
     }
 /*
     Game.goldenCookieChoices=[
