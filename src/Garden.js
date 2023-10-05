@@ -117,6 +117,17 @@ class Garden {
     }
   }
 
+  static getLocked(){
+    let plants = this.minigame.plants;
+    let result = [];
+    for (var i in plants){
+      if (!plants[i].unlocked){
+        result.push(plants[i]);
+      } 
+    }
+    return result;
+  }
+
   static run(config) {
     this.forEachTile((x, y) => {
       if (config.autoHarvest && !this.tileIsEmpty(x, y)) {

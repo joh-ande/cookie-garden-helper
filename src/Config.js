@@ -17,6 +17,8 @@ class Config {
       autoPlantCheckCpSMult: false,
       autoPlantMaxiCpSMult: { value: 0, min: 0 },
       savedPlot: [],
+      allSeeds: [],
+      autoForceHand: false
     };
   }
 

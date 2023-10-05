@@ -30,6 +30,8 @@ class Config {
       autoPlantCheckCpSMult: false,
       autoPlantMaxiCpSMult: { value: 0, min: 0 },
       savedPlot: [],
+      allSeeds: [],
+      autoForceHand: false
     };
   }
 
@@ -167,6 +169,17 @@ class Garden {
     }
   }
 
+  static getLocked(){
+    let plants = this.minigame.plants;
+    let result = [];
+    for (var i in plants){
+      if (!plants[i].unlocked){
+        result.push(plants[i]);
+      } 
+    }
+    return result;
+  }
+
   static run(config) {
     this.forEachTile((x, y) => {
       if (config.autoHarvest && !this.tileIsEmpty(x, y)) {
@@ -222,6 +235,7 @@ class UI {
   position: inherit;
 }
 #cookieGardenHelper.visible {
+  border:2px solid red;
   display: block;
 }
 #cookieGardenHelperTools:after {
@@ -244,9 +258,27 @@ class UI {
 }
 
 #cookieGardenMutatePane{
-  content: "";
-  display: table;
-  clear: both;
+
+}
+
+#cookieGardenGardenPanel {
+  float: left;
+  border: 1px solid red;
+  width:394px;
+  min-height:200px:
+
+}
+
+.cookieGardenGardenTileIcon {
+  transform: translate(0,0);
+  pointer-events: none;
+  transform-origin: 50% 40px;
+  width: 48px;
+  height: 48px;
+  left: -4px;
+  top: -12px;
+  background: url(//cdn.dashnet.org/cookieclicker/img/gardenPlants.png?v=2.052);
+  z-index: 1000;
 }
 
 #autoHarvestPanel { color: wheat; }
@@ -510,10 +542,18 @@ class UI {
         ${this.button('fillGardenWithSelectedSeed', 'Plant selected seed',
         'Plant the selected seed on all empty tiles')}
       </p>
+      <p>
+      ${this.button(
+        'autoForceHand', 'Auto Force Hand',
+        'Auto Force Hand', true,
+        config.autoForceHand
+      )}
+      </p>
     </div>
   </div>
   <div id="cookieGardenMutatePane">
     <h2>Mutate tools</h2>
+    ${this.buildLocked()}
   </div>
 </div>`);
 
@@ -568,6 +608,29 @@ class UI {
       </div>`).join('')}
     </div>`;
   }
+
+  static buildLocked() {
+    let self = this;
+    let result = `<div id="cookieGardenGardenPanel">`;
+    
+    Garden.getLocked().forEach(function (plant){
+      result += self.buildPlant(plant);
+    });
+
+    result += '</div>';
+
+    return result;
+  }
+
+  static buildPlant(plant){
+    return '<div onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '"><div class="cookieGardenGardenTileIcon" onclick="alert(' + plant.name + ')" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
+    //return '<div class="" onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;">'; 
+    //return <div id="gardenSeed-14" class="gardenSeed locked" onmouseout="Game.tooltip.shouldHide=1;" onmouseover="Game.tooltip.dynamic=1;Game.tooltip.draw(this,function(){return Game.ObjectsById[2].minigame.seedTooltip(14)();},'this');Game.tooltip.wobble();"><div id="gardenSeedIcon-14" class="gardenSeedIcon shadowFilter" style="background-position:0px -528px;"></div></div>
+    //let str = 
+    //str+='<div id="gardenSeed-'+me.id+'" class="gardenSeed'+(M.seedSelected==me.id?' on':'')+' locked" '+Game.getDynamicTooltip('Game.ObjectsById['+M.parent.id+'].minigame.seedTooltip('+me.id+')','this')+'>';
+    //return '<div class="gardenSeed" ' +Game.getDynamicTooltip('Game.ObjectsById['+plant.parent.id+'].minigame.seedTooltip('+plant.id+')','this')+ '><div class="gardenSeedIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div>Argh</div>'
+    //return '<div class="cookieGardenGardenTileIcon" style="background-position: 0 ' + this.getSeedIconY(plant.icon + 2) + 'px;">' + plant.name + '</div>'; 
+  }
 }
 
 class Main {
@@ -587,7 +650,12 @@ class Main {
       oldConvert();
     }
 
+    for(i = 1; i < 35; i++)
+
     this.start();
+
+    window.setTimeout(this.clickId, 25, "bigCookie");
+    window.setTimeout(this.clickClass, 25, "shimmer");
   }
 
   static start() {
@@ -635,6 +703,26 @@ class Main {
       let content = UI.buildSavedPlot(this.config.savedPlot);
       Game.tooltip.draw(element, window.escape(content));
     }
+  }
+
+  static clickId(id) {
+    var element = document.getElementById(id);
+    if(element !== undefined) {
+      Main.doEvent(element, "click");
+    }
+    window.setTimeout(Main.clickId, 25, id);
+  }
+  static clickClass(id) {
+    var elements = document.getElementsByClassName(id);
+    if(elements !== undefined && elements.length > 0) {
+      Main.doEvent(elements[0], "click");
+    }
+    window.setTimeout(Main.clickClass, 25, id);
+  }
+  static doEvent(element, type) {
+      var trigger = document.createEvent('HTMLEvents');
+      trigger.initEvent(type, true, true);
+      element.dispatchEvent(trigger);
   }
 }
 

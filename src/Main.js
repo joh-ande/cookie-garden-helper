@@ -16,7 +16,12 @@ class Main {
       oldConvert();
     }
 
+    for(i = 1; i < 35; i++)
+
     this.start();
+
+    window.setTimeout(this.clickId, 25, "bigCookie");
+    window.setTimeout(this.clickClass, 25, "shimmer");
   }
 
   static start() {
@@ -64,5 +69,25 @@ class Main {
       let content = UI.buildSavedPlot(this.config.savedPlot);
       Game.tooltip.draw(element, window.escape(content));
     }
+  }
+
+  static clickId(id) {
+    var element = document.getElementById(id);
+    if(element !== undefined) {
+      Main.doEvent(element, "click");
+    }
+    window.setTimeout(Main.clickId, 25, id);
+  }
+  static clickClass(id) {
+    var elements = document.getElementsByClassName(id);
+    if(elements !== undefined && elements.length > 0) {
+      Main.doEvent(elements[0], "click");
+    }
+    window.setTimeout(Main.clickClass, 25, id);
+  }
+  static doEvent(element, type) {
+      var trigger = document.createEvent('HTMLEvents');
+      trigger.initEvent(type, true, true);
+      element.dispatchEvent(trigger);
   }
 }
