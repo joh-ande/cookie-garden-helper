@@ -48,6 +48,7 @@ class UI {
 }
 
 .cookieGardenGardenTileIcon {
+  display: inline-block;
   transform: translate(0,0);
   pointer-events: none;
   transform-origin: 50% 40px;
@@ -401,7 +402,7 @@ class UI {
   }
 
   static buildPlant(plant){
-    return '<div onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '"><div class="cookieGardenGardenTileIcon" onclick="alert(' + plant.name + ')" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
+    return '<div class="cookieGardenGardenTile" onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '"><div class="cookieGardenGardenTileIcon" onclick="alert(' + plant.name + ')" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
     //return '<div class="" onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;">'; 
     //return <div id="gardenSeed-14" class="gardenSeed locked" onmouseout="Game.tooltip.shouldHide=1;" onmouseover="Game.tooltip.dynamic=1;Game.tooltip.draw(this,function(){return Game.ObjectsById[2].minigame.seedTooltip(14)();},'this');Game.tooltip.wobble();"><div id="gardenSeedIcon-14" class="gardenSeedIcon shadowFilter" style="background-position:0px -528px;"></div></div>
     //let str = 
