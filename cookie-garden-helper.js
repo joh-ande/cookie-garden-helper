@@ -324,6 +324,7 @@ class UI {
 }
 
 .cookieGardenGardenRow {
+  float: left;
 }
 
 .cookieGardenGardenTile {
@@ -646,6 +647,12 @@ class UI {
       };
     });
 
+    doc.qSelAll('.cookieGardenGardenTile').forEach((tile) => {
+      tile.onclick = (event) => {
+        console.log(tile.data);
+      };
+    });
+
     doc.elId('cookieGardenHelperPlotIsSaved').onmouseout = (event) => {
       Main.handleMouseoutPlotIsSaved(this);
     }
@@ -688,13 +695,7 @@ class UI {
   }
 
   static buildPlant(plant){
-    return '<div class="cookieGardenGardenTile" onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '"><div class="cookieGardenGardenTileIcon" onclick="alert(' + plant.name + ')" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
-    //return '<div class="" onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;">'; 
-    //return <div id="gardenSeed-14" class="gardenSeed locked" onmouseout="Game.tooltip.shouldHide=1;" onmouseover="Game.tooltip.dynamic=1;Game.tooltip.draw(this,function(){return Game.ObjectsById[2].minigame.seedTooltip(14)();},'this');Game.tooltip.wobble();"><div id="gardenSeedIcon-14" class="gardenSeedIcon shadowFilter" style="background-position:0px -528px;"></div></div>
-    //let str = 
-    //str+='<div id="gardenSeed-'+me.id+'" class="gardenSeed'+(M.seedSelected==me.id?' on':'')+' locked" '+Game.getDynamicTooltip('Game.ObjectsById['+M.parent.id+'].minigame.seedTooltip('+me.id+')','this')+'>';
-    //return '<div class="gardenSeed" ' +Game.getDynamicTooltip('Game.ObjectsById['+plant.parent.id+'].minigame.seedTooltip('+plant.id+')','this')+ '><div class="gardenSeedIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div>Argh</div>'
-    //return '<div class="cookieGardenGardenTileIcon" style="background-position: 0 ' + this.getSeedIconY(plant.icon + 2) + 'px;">' + plant.name + '</div>'; 
+    return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" onclick="alert(' + plant.name + ')" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
   }
 }
 
