@@ -40,6 +40,8 @@ class UI {
 }
 
 #cookieGardenGardenPanel {
+  display: flex;
+  flex-direction: row;
   float: left;
   border: 1px solid red;
   width:394px;
@@ -48,7 +50,6 @@ class UI {
 }
 
 .cookieGardenGardenTileIcon {
-  display: inline-block;
   transform: translate(0,0);
   pointer-events: none;
   transform-origin: 50% 40px;
