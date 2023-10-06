@@ -650,12 +650,7 @@ class UI {
 
     doc.qSelAll('.cookieGardenGardenTile').forEach((tile) => {
       tile.onclick = (event) => {
-        console.log('gardentile');
-      };
-    });
-    doc.qSelAll('.cookieGardenGardenTileIcon').forEach((tile) => {
-      tile.onclick = (event) => {
-        console.log('cookieGardenGardenTileIcon');
+        console.log(tile.data);
       };
     });
 
