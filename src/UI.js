@@ -40,13 +40,12 @@ class UI {
 }
 
 #cookieGardenGardenPanel {
-  display: flex;
-  flex-direction: row;
   float: left;
   border: 1px solid red;
-  width:394px;
-  min-height:200px:
+}
 
+.cookieGardenGardenTile {
+  float: left;
 }
 
 .cookieGardenGardenTileIcon {
