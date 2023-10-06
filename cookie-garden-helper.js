@@ -332,6 +332,7 @@ class UI {
 }
 
 .cookieGardenGardenTileIcon {
+  border: 1px solid red;
   transform: translate(0,0);
   pointer-events: none;
   transform-origin: 50% 40px;
