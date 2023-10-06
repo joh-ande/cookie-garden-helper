@@ -44,6 +44,9 @@ class UI {
   border: 1px solid red;
 }
 
+.cookieGardenGardenRow {
+}
+
 .cookieGardenGardenTile {
   float: left;
 }
@@ -390,13 +393,17 @@ class UI {
 
   static buildLocked() {
     let self = this;
-    let result = `<div id="cookieGardenGardenPanel">`;
-    
+    let result = `<div id="cookieGardenGardenPanel"><div class="cookieGardenGardenPanelRow">`;
+    let count = 0;
+
     Garden.getLocked().forEach(function (plant){
       result += self.buildPlant(plant);
+      if(count++ > 8){
+        result += '</div><div class="cookieGardenGardenPanelRow">'
+      }
     });
 
-    result += '</div>';
+    result += '</div></div>';
 
     return result;
   }
