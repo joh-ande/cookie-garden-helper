@@ -334,10 +334,10 @@ class UI {
       )}
       </p>
     </div>
-  </div>
-  <div id="cookieGardenMutatePane">
-    <h2>Mutate tools</h2>
-    ${this.buildLocked()}
+    <div id="cookieGardenMutatePane">
+      <h2>Mutate tools</h2>
+      ${this.buildLocked()}
+    </div>
   </div>
 </div>`);
 
@@ -371,7 +371,7 @@ class UI {
 
     doc.qSelAll('.cookieGardenGardenTile').forEach((tile) => {
       tile.onclick = (event) => {
-        console.log(tile.data);
+        Garden.plantMutate(tile.getAttribute('data'));
       };
     });
 
@@ -417,6 +417,6 @@ class UI {
   }
 
   static buildPlant(plant){
-    return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" onclick="alert(' + plant.name + ')" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
+    return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
   }
 }

@@ -50,7 +50,48 @@ class Config {
     window.localStorage.setItem(this.storageKey, JSON.stringify(config));
   }
 }
+class SeedMap {
+    static s4_4 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[4,0],[4,0],[1,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
+    static s4 = ['','','',this.s4_4];
 
+    static mutateMap = [
+        [],
+        [],
+        [],
+        this.s4
+    ]
+
+    init(){
+        console.log(this.xx);
+        let seedMap = new Map();
+        
+        let seed = new Map();
+        seed.set('4', this.s4_4);
+
+        seedMap.set('4', seed);
+        this.seedMap = seedMap;
+    }
+
+    static getPlot(seedId, lvl){
+        return this.mutateMap[seedId-1][lvl-1];
+    }
+
+    static test(){
+        console.log(this.xx);
+    }
+
+    static getEmptyLvl4(){
+        return [
+            [[0,0],[0,0],[0,0],[0,0],[0,0,[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[1,0],[4,0],[4,0],[1,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]]
+          ]; 
+    }
+
+}
 class Garden {
   static get minigame() { return Game.Objects['Farm'].minigame; }
   static get isActive() { return this.minigame !== undefined; }
@@ -178,6 +219,18 @@ class Garden {
       } 
     }
     return result;
+  }
+
+  static plantMutate(seedId){
+    let lvl = this.getLevel();
+    console.log('plot: ' + seedId + ' ' + lvl);
+    let plot = SeedMap.getPlot(seedId, lvl);
+    console.log(plot);
+    Main.savePlot(plot);
+  }
+
+  static getLevel(){
+    return Math.max(1,Math.min(this.minigame.plotLimits.length,this.minigame.parent.level));
   }
 
   static run(config) {
@@ -613,10 +666,10 @@ class UI {
       )}
       </p>
     </div>
-  </div>
-  <div id="cookieGardenMutatePane">
-    <h2>Mutate tools</h2>
-    ${this.buildLocked()}
+    <div id="cookieGardenMutatePane">
+      <h2>Mutate tools</h2>
+      ${this.buildLocked()}
+    </div>
   </div>
 </div>`);
 
@@ -650,7 +703,7 @@ class UI {
 
     doc.qSelAll('.cookieGardenGardenTile').forEach((tile) => {
       tile.onclick = (event) => {
-        console.log(tile.data);
+        Garden.plantMutate(tile.getAttribute('data'));
       };
     });
 
@@ -663,6 +716,7 @@ class UI {
   }
 
   static getSeedIconY(seedId) {
+    console.log(seedId);
     return Garden.getPlant(seedId).icon * -48;
   }
 
@@ -696,7 +750,7 @@ class UI {
   }
 
   static buildPlant(plant){
-    return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" onclick="alert(' + plant.name + ')" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
+    return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
   }
 }
 
@@ -759,11 +813,17 @@ class Main {
   static handleClick(key) {
     if (key == 'fillGardenWithSelectedSeed') {
       Garden.fillGardenWithSelectedSeed();
+      this.save();
     } else if (key == 'savePlot') {
-      this.config['savedPlot'] = Garden.clonePlot();
-      UI.labelToggleState('plotIsSaved', true);
+      this.savePlot(Garden.clonePlot());
     }
-    this.save();
+  }
+
+  static savePlot(plot){
+    console.log(plot);
+      this.config['savedPlot'] = plot;
+      UI.labelToggleState('plotIsSaved', true);
+      this.save();
   }
 
   static handleMouseoutPlotIsSaved(element) {

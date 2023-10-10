@@ -3,6 +3,7 @@
   printf '{\n\n';
   cat ./src/utils.js;
   cat ./src/Config.js;
+  cat ./src/SeedMap.js;
   cat ./src/Garden.js;
   cat ./src/Grimore.js;
   cat ./src/UI.js;

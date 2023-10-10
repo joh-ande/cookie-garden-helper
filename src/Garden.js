@@ -128,6 +128,18 @@ class Garden {
     return result;
   }
 
+  static plantMutate(seedId){
+    let lvl = this.getLevel();
+    console.log('plot: ' + seedId + ' ' + lvl);
+    let plot = SeedMap.getPlot(seedId, lvl);
+    console.log(plot);
+    Main.savePlot(plot);
+  }
+
+  static getLevel(){
+    return Math.max(1,Math.min(this.minigame.plotLimits.length,this.minigame.parent.level));
+  }
+
   static run(config) {
     this.forEachTile((x, y) => {
       if (config.autoHarvest && !this.tileIsEmpty(x, y)) {

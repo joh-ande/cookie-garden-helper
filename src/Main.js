@@ -58,11 +58,17 @@ class Main {
   static handleClick(key) {
     if (key == 'fillGardenWithSelectedSeed') {
       Garden.fillGardenWithSelectedSeed();
+      this.save();
     } else if (key == 'savePlot') {
-      this.config['savedPlot'] = Garden.clonePlot();
-      UI.labelToggleState('plotIsSaved', true);
+      this.savePlot(Garden.clonePlot());
     }
-    this.save();
+  }
+
+  static savePlot(plot){
+    console.log(plot);
+      this.config['savedPlot'] = plot;
+      UI.labelToggleState('plotIsSaved', true);
+      this.save();
   }
 
   static handleMouseoutPlotIsSaved(element) {
