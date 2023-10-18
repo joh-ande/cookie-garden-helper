@@ -52,13 +52,24 @@ class Config {
 }
 class SeedMap {
     static blank_row = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]];
+    static blank_map = [this.blank_row,this.blank_row,this.blank_row,this.blank_row,this.blank_row,this.blank_row];
+
+    static s1_7 = [[[1,0],[1,0],[0,0],[0,0],[1,0],[1,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[1,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[1,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
+    static s1_8 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]]];
+    static s1_9 = [this.blank_row,[[1,0],[1,0],[0,0],[1,0],[1,0],[1,0]],this.blank_row,this.blank_row,[[1,0],[1,0],[0,0],[1,0],[1,0],[1,0]],this.blank_row];
+    static s1 = ['','','','','','',this.s1_7,this.s1_8,this.s1_9];
 
     static s2_7 = [[[1,0],[1,0],[0,0],[0,0],[1,0],[1,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[1,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[1,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
     static s2_8 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]]];
-    static s2 = ['','','','','','',this.s2_7,this.s2_8];
+    static s2_9 = this.getLvl9Map([1,2]);
+    static s2 = ['','','','','','',this.s2_7,this.s2_8,this.s2_9];
+
+
+
 
     static s3_8 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[2,0],[0,0],[0,0],[2,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[2,0],[0,0],[0,0],[2,0],[0,0]]];
-    static s3 = ['','','','','','',this.s3_7,this.s3_8];
+    static s3_9 = this.getLvl9Map([1,2]);
+    static s3 = ['','','','','','',this.s3_7,this.s3_8,this.s3_9];
 
     static s4_4 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[4,0],[4,0],[1,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
     static s4 = ['','','',this.s4_4];
@@ -82,7 +93,8 @@ class SeedMap {
 
     static s19_4 = [];
     static s19_5 = [this.blank_row,[[0,0],[13,0],[0,0],[0,0],[13,0],[0,0]],[[0,0],[0,0],[30,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[30,0],[0,0],[0,0]],[[0,0],[13,0],[0,0],[0,0],[13,0],[0,0]],this.blank_row];
-    static s19 = ['','','',this.s19_4,this.s19_5];
+    static s19_9 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[13,0],[0,0],[0,0],[13,0],[0,0]],[[0,0],[0,0],[30,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[30,0],[0,0],[0,0]],[[0,0],[13,0],[0,0],[0,0],[13,0],[0,0]],this.blank_row];
+    static s19 = ['','','',this.s19_4,this.s19_5,'','','',this.s19_9];
 
     static s20 = [];
     static s21 = [];
@@ -105,7 +117,7 @@ class SeedMap {
     static s34 = [];
 
     static mutateMap = [
-        [],
+        this.s1,
         this.s2,
         this.s3,
         this.s4,
@@ -152,19 +164,37 @@ class SeedMap {
     }
 
     static getPlot(seedId, lvl){
-        return this.mutateMap[seedId-1][lvl-1];
+        let plant = Garden.getPlant(parseInt(seedId)+1);
+        let parentIds = Garden.getParentIds(plant);
+        
+        return this.getLevelMap(parentIds, lvl);
     }
 
-    static test(){
-        console.log(this.xx);
+    static getLevelMap(parentIds, lvl){
+        switch (lvl) {
+            case 9:
+                return this.getLvl9Map(parentIds);
+            default:
+                return this.getLvl9Map(parentIds);
+          }
     }
 
-    static getEmptyLvl4(){
+    static getLvl9Map(parentIds){
+        let seed1 = parentIds[0];
+        if(parentIds.length > 1){
+            let seed2 = parentIds[1];
+            return [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[seed1,0],[seed2,0],[seed1,0],[0,0],[seed2,0],[seed1,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[seed1,0],[seed2,0],[0,0],[seed1,0],[seed2,0],[seed1,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
+        } else {
+            return [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[seed1,0],[seed1,0],[0,0],[seed1,0],[seed1,0],[seed1,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[seed1,0],[seed1,0],[0,0],[seed1,0],[seed1,0],[seed1,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
+        } 
+    }
+
+    static getEmptyMap(){
         return [
             [[0,0],[0,0],[0,0],[0,0],[0,0,[0,0]],
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[0,0],[1,0],[4,0],[4,0],[1,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]]
           ]; 
@@ -299,11 +329,35 @@ class Garden {
     return result;
   }
 
+  static parentsUnlocked(plant){
+    let plants = this.plants[plant.key].parents;
+
+    for(var i = 0; i < plants.length; i++) {
+      let parent = plants[i]; 
+      if(!Garden.minigame.plants[parent].unlocked){
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  static getParentIds(plant){
+    let result = [];
+
+    let parents = this.plants[plant.key].parents;
+    
+    parents.forEach(function (key){
+      result.push(Garden.minigame.plants[key].id + 1);  
+    });
+
+    return result;
+  }
+
   static plantMutate(seedId){
     let lvl = this.getLevel();
     console.log('plot: ' + seedId + ' ' + lvl);
     let plot = SeedMap.getPlot(seedId, lvl);
-    console.log(plot);
     Main.savePlot(plot);
   }
 
@@ -350,6 +404,179 @@ class Garden {
       }
     });
   }
+
+  static plants = {
+      'bakerWheat':{
+          name:'Baker\'s wheat',
+          icon:0,
+          parents: []
+      },
+      'thumbcorn':{
+          name:'Thumbcorn',
+          icon:1,
+          parents: ['bakerWheat']
+      },
+      'cronerice':{
+          name:'Cronerice',
+          icon:2,
+          parents: ['bakerWheat','thumbcorn']
+      },
+      'gildmillet':{
+          name:'Gildmillet',
+          icon:3,
+          parents: ['cronerice','thumbcorn']
+      },
+      'clover':{
+          name:'Ordinary clover',
+          icon:4,
+          parents: ['bakerWheat','gildmillet']
+      },
+      'goldenClover':{
+          name:'Golden clover',
+          icon:5,
+          parents: ['bakerWheat','gildmillet']
+      },
+      'shimmerlily':{
+          name:'Shimmerlily',
+          icon:6,
+          parents: ['gildmillet','clover']
+      },
+      'elderwort':{
+          name:'Elderwort',
+          icon:7,
+          parents: ['shimmerlily','wrinklegill']
+      },
+      'bakeberry':{
+          name:'Bakeberry',
+          icon:8,
+          parents: ['bakerWheat']
+      },
+      'chocoroot':{
+          name:'Chocoroot',
+          icon:9,
+          parents: ['bakerWheat','brownMold']
+      },
+      'whiteChocoroot':{
+          name:'White chocoroot',
+          icon:10,
+          parents: ['chocoroot','whiteMildew']
+      },
+      'whiteMildew':{
+          name:'White mildew',
+          icon:26,
+          parents: ['brownMold']
+      },
+      'brownMold':{
+          name:'Brown mold',
+          icon:27,
+          parents: ['meddleweed']
+      },
+      'meddleweed':{
+          name:'Meddleweed',
+          icon:29,
+          parents: []
+      },
+      'whiskerbloom':{
+          name:'Whiskerbloom',
+          icon:11,
+          parents: ['shimmerlily','whiteChocoroot']
+      },
+      'chimerose':{
+          name:'Chimerose',
+          icon:12,
+          parents: ['shimmerlily', 'whiskerbloom']
+      },
+      'nursetulip':{
+          name:'Nursetulip',
+          icon:13,
+          parents: ['whiskerbloom']
+      },
+      'drowsyfern':{
+          name:'Drowsyfern',
+          icon:14,
+          parents: ['chocoroot','keenmoss']
+      },
+      'wardlichen':{
+          name:'Wardlichen',
+          icon:15,
+          parents: ['keenmoss','cronerice']
+      },
+      'keenmoss':{
+          name:'Keenmoss',
+          icon:16,
+          parents: ['greenRot','brownMold']
+      },
+      'queenbeet':{
+          name:'Queenbeet',
+          icon:17,
+          parents: ['bakeberry','chocoroot']
+      },
+      'queenbeetLump':{
+          name:'Juicy queenbeet',
+          icon:18,
+          parents: ['queenbeet']
+      },
+      'duketater':{
+          name:'Duketater',
+          icon:19,
+          parents: ['queenbeet']
+      },
+      'crumbspore':{
+          name:'Crumbspore',
+          icon:20,
+          parents: []
+      },
+      'doughshroom':{
+          name:'Doughshroom',
+          icon:21,
+          parents: ['crumbspore']
+      },
+      'glovemorel':{
+          name:'Glovemorel',
+          icon:22,
+          parents: ['thumbcorn','crumbspore']
+      },
+      'cheapcap':{
+          name:'Cheapcap',
+          icon:22,
+          parents: ['crumbspore','shimmerlily']
+      },
+      'foolBolete':{
+          name:'Fool\'s bolete',
+          icon:23,
+          parents: ['doughshroom','greenRot']
+      },
+      'wrinklegill':{
+          name:'Wrinklegill',
+          icon:25,
+          parents: ['crumbspore','brownMold']
+      },
+      'greenRot':{
+          name:'Green rot',
+          icon:28,
+          parents: ['clover','whiteMildew']
+      },
+      'shriekbulb':{
+          name:'Shriekbulb',
+          icon:30,
+          parents: ['duketater']
+      },
+      'tidygrass':{
+          name:'Tidygrass',
+          icon:31,
+          parents: ['bakerWheat','whiteChocoroot']
+      },
+      'everdaisy':{
+          name:'Everdaisy',
+          icon:32,
+          parents: ['tidygrass','elderwort']
+      },
+      'ichorpuff':{
+          name:'Ichorpuff',
+          icon:33,
+          parents: ['elderwort','crumbspore']
+      },
+    };
 }
 class Grimoire{
     static get minigame() { return Game.Objects['Wizard tower'].minigame; }
@@ -746,10 +973,12 @@ class UI {
     </div>
     <div id="cookieGardenMutatePane">
       <h2>Mutate tools</h2>
-      ${this.buildLocked()}
+      <div id="cookieGardenGardenPanel"></div>
     </div>
   </div>
 </div>`);
+
+        this.buildLocked();
 
     doc.elId('cookieGardenHelperProductButton').onclick = (event) => {
       doc.elId('cookieGardenHelper').classList.toggle('visible');
@@ -820,19 +1049,24 @@ class UI {
   }
 
   static buildLocked() {
+    doc.elId('cookieGardenGardenPanel').setHTML(this.buildPlants());
+  }
+
+  static buildPlants(){
     let self = this;
-    let result = `<div id="cookieGardenGardenPanel"><div class="cookieGardenGardenPanelRow">`;
+    let result = `<div class="cookieGardenGardenPanelRow">`;
     let count = 0;
 
     Garden.getLocked().forEach(function (plant){
-      result += self.buildPlant(plant);
-      if(count++ > 8){
-        result += '</div><div class="cookieGardenGardenPanelRow">'
+      if(Garden.parentsUnlocked(plant)){
+        result += UI.buildPlant(plant);
+        if(count++ > 8){
+         result += '</div><div class="cookieGardenGardenPanelRow">'
+        }
       }
     });
 
-    result += '</div></div>';
-
+    result += '</div>';
     return result;
   }
 

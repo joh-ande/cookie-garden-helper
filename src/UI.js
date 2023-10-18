@@ -336,10 +336,12 @@ class UI {
     </div>
     <div id="cookieGardenMutatePane">
       <h2>Mutate tools</h2>
-      ${this.buildLocked()}
+      <div id="cookieGardenGardenPanel"></div>
     </div>
   </div>
 </div>`);
+
+        this.buildLocked();
 
     doc.elId('cookieGardenHelperProductButton').onclick = (event) => {
       doc.elId('cookieGardenHelper').classList.toggle('visible');
@@ -410,19 +412,24 @@ class UI {
   }
 
   static buildLocked() {
+    doc.elId('cookieGardenGardenPanel').setHTML(this.buildPlants());
+  }
+
+  static buildPlants(){
     let self = this;
-    let result = `<div id="cookieGardenGardenPanel"><div class="cookieGardenGardenPanelRow">`;
+    let result = `<div class="cookieGardenGardenPanelRow">`;
     let count = 0;
 
     Garden.getLocked().forEach(function (plant){
-      result += self.buildPlant(plant);
-      if(count++ > 8){
-        result += '</div><div class="cookieGardenGardenPanelRow">'
+      if(Garden.parentsUnlocked(plant)){
+        result += UI.buildPlant(plant);
+        if(count++ > 8){
+         result += '</div><div class="cookieGardenGardenPanelRow">'
+        }
       }
     });
 
-    result += '</div></div>';
-
+    result += '</div>';
     return result;
   }
 
