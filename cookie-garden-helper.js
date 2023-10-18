@@ -51,6 +51,8 @@ class Config {
   }
 }
 class SeedMap {
+    static blank_row = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]];
+
     static s2_7 = [[[1,0],[1,0],[0,0],[0,0],[1,0],[1,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[1,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[1,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
     static s2_8 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]]];
     static s2 = ['','','','','','',this.s2_7,this.s2_8];
@@ -78,8 +80,29 @@ class SeedMap {
     static s17 = [];
     static s18 = [];
 
-    static s19_4 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[10,0],[9,0],[9,0],[10,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
-    static s19 = ['','','',this.s19_4];
+    static s19_4 = [];
+    static s19_5 = [this.blank_row,[[0,0],[13,0],[0,0],[0,0],[13,0],[0,0]],[[0,0],[0,0],[30,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[30,0],[0,0],[0,0]],[[0,0],[13,0],[0,0],[0,0],[13,0],[0,0]],this.blank_row];
+    static s19 = ['','','',this.s19_4,this.s19_5];
+
+    static s20 = [];
+    static s21 = [];
+    static s22 = [];
+    static s23 = [];
+    static s24 = [];
+    static s25 = [];
+    static s26 = [];
+
+    static s27_5 = [this.blank_row,[[0,0],[30,0],[0,0],[0,0],[30,0],[0,0]],[[0,0],[0,0],[24,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[24,0],[0,0],[0,0]],[[0,0],[30,0],[0,0],[0,0],[30,0],[0,0]],this.blank_row];
+    static s27 = ['','','','',this.s27_5];
+    
+    static s28 = [];
+    static s29 = [];
+
+    static s30 = [];
+    static s31 = [];
+    static s32 = [];
+    static s33 = [];
+    static s34 = [];
 
     static mutateMap = [
         [],
@@ -101,11 +124,24 @@ class SeedMap {
         this.s17,
         this.s18,
         this.s19,
-        [],[],[],[],
+        this.s20,
+        this.s21,
+        this.s22,
+        this.s23,
+        this.s24,
+        this.s25,
+        this.s26,
+        this.s27,
+        this.s28,
+        this.s29,
+        this.s30,
+        this.s31,
+        this.s32,
+        this.s33,
+        this.s34
     ]
 
     init(){
-        console.log(this.xx);
         let seedMap = new Map();
         
         let seed = new Map();
@@ -746,6 +782,16 @@ class UI {
     doc.qSelAll('.cookieGardenGardenTile').forEach((tile) => {
       tile.onclick = (event) => {
         Garden.plantMutate(tile.getAttribute('data'));
+      };
+      tile.onmouseover = (event) => {
+        Game.tooltip.dynamic=1;
+        Game.tooltip.draw(tile,function(){
+          return Game.ObjectsById[2].minigame.seedTooltip(tile.getAttribute('data'))();
+        },'this');
+        Game.tooltip.wobble();
+      };
+      tile.onmouseout = (event) => {
+        Game.tooltip.shouldHide=1;
       };
     });
 

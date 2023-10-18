@@ -373,6 +373,16 @@ class UI {
       tile.onclick = (event) => {
         Garden.plantMutate(tile.getAttribute('data'));
       };
+      tile.onmouseover = (event) => {
+        Game.tooltip.dynamic=1;
+        Game.tooltip.draw(tile,function(){
+          return Game.ObjectsById[2].minigame.seedTooltip(tile.getAttribute('data'))();
+        },'this');
+        Game.tooltip.wobble();
+      };
+      tile.onmouseout = (event) => {
+        Game.tooltip.shouldHide=1;
+      };
     });
 
     doc.elId('cookieGardenHelperPlotIsSaved').onmouseout = (event) => {
