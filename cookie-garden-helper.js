@@ -51,14 +51,57 @@ class Config {
   }
 }
 class SeedMap {
+    static s2_7 = [[[1,0],[1,0],[0,0],[0,0],[1,0],[1,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[1,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[1,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
+    static s2_8 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]]];
+    static s2 = ['','','','','','',this.s2_7,this.s2_8];
+
+    static s3_8 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[2,0],[0,0],[0,0],[2,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[0,0],[0,0],[1,0],[0,0]],[[0,0],[2,0],[0,0],[0,0],[2,0],[0,0]]];
+    static s3 = ['','','','','','',this.s3_7,this.s3_8];
+
     static s4_4 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[4,0],[4,0],[1,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
     static s4 = ['','','',this.s4_4];
+    
+    static s5_4 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[1,0],[4,0],[4,0],[1,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
+    static s5 = ['','','',this.s5_4];
+
+    static s6 = [];
+    static s7 = [];
+    static s8 = [];
+    static s9 = [];
+    static s10 = [];
+    static s11 = [];
+    static s12 = [];
+    static s13 = [];
+    static s14 = [];
+    static s15 = [];
+    static s16 = [];
+    static s17 = [];
+    static s18 = [];
+
+    static s19_4 = [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[10,0],[9,0],[9,0],[10,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]];
+    static s19 = ['','','',this.s19_4];
 
     static mutateMap = [
         [],
-        [],
-        [],
-        this.s4
+        this.s2,
+        this.s3,
+        this.s4,
+        this.s5,
+        this.s6,
+        this.s7,
+        this.s8,
+        this.s9,
+        this.s10,
+        this.s11,
+        this.s12,
+        this.s13,
+        this.s14,
+        this.s15,
+        this.s16,
+        this.s17,
+        this.s18,
+        this.s19,
+        [],[],[],[],
     ]
 
     init(){
@@ -90,7 +133,6 @@ class SeedMap {
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]]
           ]; 
     }
-
 }
 class Garden {
   static get minigame() { return Game.Objects['Farm'].minigame; }
@@ -716,7 +758,6 @@ class UI {
   }
 
   static getSeedIconY(seedId) {
-    console.log(seedId);
     return Garden.getPlant(seedId).icon * -48;
   }
 
@@ -750,7 +791,8 @@ class UI {
   }
 
   static buildPlant(plant){
-    return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
+    //return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
+    return '<div class="cookieGardenGardenTile" onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>';
   }
 }
 
@@ -820,7 +862,7 @@ class Main {
   }
 
   static savePlot(plot){
-    console.log(plot);
+      console.log(plot);
       this.config['savedPlot'] = plot;
       UI.labelToggleState('plotIsSaved', true);
       this.save();

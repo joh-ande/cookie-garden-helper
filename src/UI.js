@@ -417,6 +417,7 @@ class UI {
   }
 
   static buildPlant(plant){
-    return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
+    //return '<div class="cookieGardenGardenTile" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>'; 
+    return '<div class="cookieGardenGardenTile" onmouseover="' + plant.l.onmouseover + '" onmouseout="' + plant.l.onmouseout + '" data="' + plant.id + '"><div class="cookieGardenGardenTileIcon" style="background-position:'+(-0*48)+'px '+(-plant.icon*48)+'px;"></div></div>';
   }
 }
