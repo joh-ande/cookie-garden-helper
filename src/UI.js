@@ -332,6 +332,11 @@ class UI {
         'Auto Force Hand', true,
         config.autoForceHand
       )}
+      ${this.button(
+        'autoMutate', 'Auto Mutate',
+        'Auto Mutate', true,
+        config.autoMutate
+      )}
       </p>
     </div>
     <div id="cookieGardenMutatePane">
@@ -371,22 +376,6 @@ class UI {
       };
     });
 
-    doc.qSelAll('.cookieGardenGardenTile').forEach((tile) => {
-      tile.onclick = (event) => {
-        Garden.plantMutate(tile.getAttribute('data'));
-      };
-      tile.onmouseover = (event) => {
-        Game.tooltip.dynamic=1;
-        Game.tooltip.draw(tile,function(){
-          return Game.ObjectsById[2].minigame.seedTooltip(tile.getAttribute('data'))();
-        },'this');
-        Game.tooltip.wobble();
-      };
-      tile.onmouseout = (event) => {
-        Game.tooltip.shouldHide=1;
-      };
-    });
-
     doc.elId('cookieGardenHelperPlotIsSaved').onmouseout = (event) => {
       Main.handleMouseoutPlotIsSaved(this);
     }
@@ -413,19 +402,31 @@ class UI {
 
   static buildLocked() {
     doc.elId('cookieGardenGardenPanel').setHTML(this.buildPlants());
+    doc.qSelAll('.cookieGardenGardenTile').forEach((tile) => {
+      tile.onclick = (event) => {
+        Garden.plantMutate(tile.getAttribute('data'));
+      };
+      tile.onmouseover = (event) => {
+        Game.tooltip.dynamic=1;
+        Game.tooltip.draw(tile,function(){
+          return Game.ObjectsById[2].minigame.seedTooltip(tile.getAttribute('data'))();
+        },'this');
+        Game.tooltip.wobble();
+      };
+      tile.onmouseout = (event) => {
+        Game.tooltip.shouldHide=1;
+      };
+    });
   }
 
   static buildPlants(){
-    let self = this;
     let result = `<div class="cookieGardenGardenPanelRow">`;
     let count = 0;
 
     Garden.getLocked().forEach(function (plant){
-      if(Garden.parentsUnlocked(plant)){
-        result += UI.buildPlant(plant);
-        if(count++ > 8){
-         result += '</div><div class="cookieGardenGardenPanelRow">'
-        }
+      result += UI.buildPlant(plant);
+      if(count++ > 8){
+        result += '</div><div class="cookieGardenGardenPanelRow">'
       }
     });
 

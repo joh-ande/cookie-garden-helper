@@ -122,7 +122,7 @@ class Garden {
     let plants = this.minigame.plants;
     let result = [];
     for (var i in plants){
-      if (!plants[i].unlocked){
+      if (!plants[i].unlocked && this.parentsUnlocked(plants[i])){
         result.push(plants[i]);
       } 
     }
@@ -156,9 +156,12 @@ class Garden {
 
   static plantMutate(seedId){
     let lvl = this.getLevel();
-    console.log('plot: ' + seedId + ' ' + lvl);
     let plot = SeedMap.getPlot(seedId, lvl);
     Main.savePlot(plot);
+  }
+
+  static autoMutate(){
+    this.plantMutate(this.getLocked()[0].id);
   }
 
   static getLevel(){
@@ -189,6 +192,10 @@ class Garden {
               console.log(`Unexpected plant stage: ${stage}`);
           }
         }
+      }
+
+      if(config.autoMutate){
+        this.autoMutate();
       }
 
       if (config.autoPlant &&
@@ -234,7 +241,7 @@ class Garden {
       'goldenClover':{
           name:'Golden clover',
           icon:5,
-          parents: ['bakerWheat','gildmillet']
+          parents: ['gildmillet','bakerWheat']
       },
       'shimmerlily':{
           name:'Shimmerlily',

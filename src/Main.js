@@ -65,7 +65,6 @@ class Main {
   }
 
   static savePlot(plot){
-      console.log(plot);
       this.config['savedPlot'] = plot;
       UI.labelToggleState('plotIsSaved', true);
       this.save();
